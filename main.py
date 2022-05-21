@@ -19,8 +19,6 @@ principal = values.principal
 periods = values.periods
 interest = values.interest
 
-print(_type, payment, principal, periods, interest)
-
 # definition of functions
 
 # functions for differentiated payments:
@@ -58,7 +56,6 @@ def differentiated_payments(principal, periods, interest):
         print(f'Overpayment = {check_for_overpayment(principal, sum_of_payments)}')
 
 
-
 #  functions for annuity payments:
 
 
@@ -83,3 +80,37 @@ def nominal_interest_rate(interest):
 if _type == 'diff':
 
     differentiated_payments(principal, periods, interest)
+
+if _type == 'annuity':
+
+    if principal and periods and interest and payment is not True:
+        # loan_principal = float(input('Enter the loan principal: '))
+        # number_of_periods = int(input('Enter the number of periods: '))
+        # loan_interest = float(input('Enter the loan interest: '))
+
+        i = nominal_interest_rate(interest)
+        pay_per_month = monthly_payment(principal, i, periods)
+        print(f'Your monthly payment = {pay_per_month}!')
+
+    # if user_input == "p":
+    #     annuity_payment = float(input('Enter the annuity payment: '))
+    #     number_of_periods = int(input('Enter the number of periods: '))
+    #     loan_interest = float(input('Enter the loan interest: '))
+    #
+    #     i = nominal_interest_rate(loan_interest)
+    #     loan = round(loan_principal(annuity_payment, i, number_of_periods))
+    #     print(f'Your loan principal = {loan}!')
+
+    # if user_input == "n":
+    #     loan_principal = float(input('Enter the loan principal: '))
+    #     monthly_payment = float(input('Enter the monthly payment: '))
+    #     loan_interest = float(input('Enter the loan interest: '))
+    #
+    #     i = nominal_interest_rate(loan_interest)
+    #
+    #     calculated_period = number_of_monthly_payments(loan_principal, monthly_payment, i)
+    #
+    #     years = (calculated_period // 12)
+    #     months = (calculated_period % 12)
+    #
+    #     print(f'It will take {years} years and {months} months to repay this loan!')
