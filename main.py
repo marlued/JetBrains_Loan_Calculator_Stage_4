@@ -58,9 +58,22 @@ def differentiated_payments(principal, periods, interest):
 
 #  functions for annuity payments:
 
-
 def monthly_payment(credit, interest, periods):
     return ceil(credit * (interest * (1 + interest) ** periods) / ((1 + interest) ** periods - 1))
+
+
+def monthly_checking_overpay(credit, interest, periods):
+    total_payment = monthly_payment(credit, interest, periods)
+    if total_payment > credit:
+        return total_payment - credit
+    else:
+        return False
+
+
+def annuity_payment(credit, interest, periods):
+    print(f'Your monthly payment = {monthly_payment(credit, interest, periods)}!')
+    if monthly_checking_overpay(credit, interest, periods) is not False:
+        print(f'Overpay: {monthly_checking_overpay(credit, interest, periods)}')
 
 
 def number_of_monthly_payments(credit, payment, interest):
@@ -88,9 +101,11 @@ if _type == 'annuity':
         # number_of_periods = int(input('Enter the number of periods: '))
         # loan_interest = float(input('Enter the loan interest: '))
 
-        i = nominal_interest_rate(interest)
-        pay_per_month = monthly_payment(principal, i, periods)
-        print(f'Your monthly payment = {pay_per_month}!')
+        # i = nominal_interest_rate(interest)
+        # pay_per_month = monthly_payment(principal, i, periods)
+        # print(f'Your monthly payment = {pay_per_month}!')
+
+        annuity_payment(principal, nominal_interest_rate(interest), periods)
 
     # if user_input == "p":
     #     annuity_payment = float(input('Enter the annuity payment: '))
