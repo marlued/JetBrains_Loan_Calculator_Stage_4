@@ -1,4 +1,4 @@
-from math import ceil, log
+from math import ceil, log, floor
 import argparse
 
 # Instantiate Argparse, define arguments and constraints, get arguments and assign them for further usage.
@@ -22,7 +22,6 @@ interest = values.interest
 # definition of functions
 
 # functions for differentiated payments:
-
 
 def diff_payments(loan_principal, interest_rate, number_of_payments, current_month_of_repayment):
     p = loan_principal
@@ -58,6 +57,8 @@ def differentiated_payments(principal, periods, interest):
 
 #  functions for annuity payments:
 
+#  functions for calculating the annuity payment (monthly rate)
+
 def monthly_payment(credit, interest, periods):
     return ceil(credit * (interest * (1 + interest) ** periods) / ((1 + interest) ** periods - 1))
 
@@ -75,17 +76,32 @@ def annuity_payment(credit, interest, periods):
     if monthly_checking_overpay(credit, interest, periods) is not False:
         print(f'Overpayment = {monthly_checking_overpay(credit, interest, periods)}')
 
+#  function calculating the period needed to repay the loan
 
 def number_of_monthly_payments(credit, payment, interest):
     return ceil(log((payment / (payment - interest * credit)), 1 + interest))
 
 
-def loan_principal(payment, i, periods):
-    return payment / ((i * (1 + i) ** periods) / ((1 + i) ** periods - 1))
+# functions for calculating the loan principal
+
+def loan_principal(payment, interest, periods):
+    i = interest / (12 * 100)
+    return floor(payment / ((i * (1 + i) ** periods) / ((1 + i) ** periods - 1)))
 
 
-def nominal_interest_rate(interest):
-    return interest / (12 * 100)
+def loan_principal_check_overpay(payment, interest, periods):
+    i = interest / (12 * 100)
+    principal = loan_principal(payment, interest, periods)
+    if principal < (payment * periods):
+        return (payment * periods) - principal
+    else:
+        return False
+
+
+def calculate_principal_with_overpayment(payment, interest, periods):
+    print(f'Your loan principal = {loan_principal(payment, interest, periods)}!')
+    if loan_principal_check_overpay(payment, interest, periods):
+        print(f'Overpayment = {loan_principal_check_overpay(payment, interest, periods)}')
 
 
 # flow control
@@ -97,15 +113,13 @@ if _type == 'diff':
 if _type == 'annuity':
 
     if principal and periods and interest and payment is not True:
-        # loan_principal = float(input('Enter the loan principal: '))
-        # number_of_periods = int(input('Enter the number of periods: '))
-        # loan_interest = float(input('Enter the loan interest: '))
 
-        # i = nominal_interest_rate(interest)
-        # pay_per_month = monthly_payment(principal, i, periods)
-        # print(f'Your monthly payment = {pay_per_month}!')
+        annuity_payment(principal, interest, periods)
 
-        annuity_payment(principal, nominal_interest_rate(interest), periods)
+    elif payment and periods and interest and principal is not True:
+
+       calculate_principal_with_overpayment(payment, interest, periods)
+
 
     # if user_input == "p":
     #     annuity_payment = float(input('Enter the annuity payment: '))
