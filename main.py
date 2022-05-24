@@ -63,7 +63,7 @@ def monthly_payment(credit, interest, periods):
 
 
 def monthly_checking_overpay(credit, interest, periods):
-    total_payment = monthly_payment(credit, interest, periods)
+    total_payment = monthly_payment(credit, interest, periods) * periods
     if total_payment > credit:
         return total_payment - credit
     else:
@@ -71,9 +71,9 @@ def monthly_checking_overpay(credit, interest, periods):
 
 
 def annuity_payment(credit, interest, periods):
-    print(f'Your monthly payment = {monthly_payment(credit, interest, periods)}!')
+    print(f'Your annuity payment = {monthly_payment(credit, interest, periods)}!')
     if monthly_checking_overpay(credit, interest, periods) is not False:
-        print(f'Overpay: {monthly_checking_overpay(credit, interest, periods)}')
+        print(f'Overpayment = {monthly_checking_overpay(credit, interest, periods)}')
 
 
 def number_of_monthly_payments(credit, payment, interest):
