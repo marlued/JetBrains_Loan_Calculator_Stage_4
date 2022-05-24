@@ -60,7 +60,8 @@ def differentiated_payments(principal, periods, interest):
 #  functions for calculating the annuity payment (monthly rate)
 
 def monthly_payment(credit, interest, periods):
-    return ceil(credit * (interest * (1 + interest) ** periods) / ((1 + interest) ** periods - 1))
+    i = interest / (12 * 100)
+    return ceil(credit * (i * (1 + i) ** periods) / ((1 + i) ** periods - 1))
 
 
 def monthly_checking_overpay(credit, interest, periods):
