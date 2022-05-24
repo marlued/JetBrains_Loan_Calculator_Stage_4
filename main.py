@@ -80,7 +80,34 @@ def annuity_payment(credit, interest, periods):
 #  function calculating the period needed to repay the loan
 
 def number_of_monthly_payments(credit, payment, interest):
-    return ceil(log((payment / (payment - interest * credit)), 1 + interest))
+    i = interest / (12 * 100)
+    return ceil(log((payment / (payment - i * credit)), 1 + i))
+
+def payment_years_month(credit, payment, interest):
+    calculated_period = number_of_monthly_payments(credit, payment, interest)
+    years = (calculated_period // 12)
+    months = (calculated_period % 12)
+    if months == 0:
+        return (f'It will take {years} years to repay this loan!' if years > 1
+                else f'It will take {years} year to repay this loan!')
+    if months != 0:
+        return (f'It will take {years} year and {months} months to repay this loan!' if years == 1
+                else f'It will take {years} years and {months} to repay this loan')
+
+
+def check_overpayment_for_period(payment, interest, periods):
+    loan = loan_principal(payment, interest, periods)
+    if loan < payment * periods:
+        return (payment * periods) - loan
+    else:
+        return False
+
+def number_monthly_with_overpay(credit, payment, interest):
+    period = number_of_monthly_payments(credit, payment, interest)
+    overpay = check_overpayment_for_period(payment, interest, period)
+    print(payment_years_month(payment, interest, period))
+    if overpay:
+        print(overpay)
 
 
 # functions for calculating the loan principal
@@ -121,15 +148,10 @@ if _type == 'annuity':
 
        calculate_principal_with_overpayment(payment, interest, periods)
 
+    elif principal and payment and interest and periods is not True:
 
-    # if user_input == "p":
-    #     annuity_payment = float(input('Enter the annuity payment: '))
-    #     number_of_periods = int(input('Enter the number of periods: '))
-    #     loan_interest = float(input('Enter the loan interest: '))
-    #
-    #     i = nominal_interest_rate(loan_interest)
-    #     loan = round(loan_principal(annuity_payment, i, number_of_periods))
-    #     print(f'Your loan principal = {loan}!')
+      print(payment_years_month(principal, payment, interest))
+
 
     # if user_input == "n":
     #     loan_principal = float(input('Enter the loan principal: '))
