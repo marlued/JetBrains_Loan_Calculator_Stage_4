@@ -5,11 +5,11 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--type', required=True, choices=['annuity', 'diff'], type=str, help='type of payment')
+parser.add_argument('--type', required=False, choices=['annuity', 'diff'], type=str, help='type of payment')
 parser.add_argument('--payment', required=False, type=int, help='amount of monthly payment')
 parser.add_argument('--principal', required=False, type=int, help='amount of loan principal')
 parser.add_argument('--periods', required=False, type=int, help='number of month to repay loan')
-parser.add_argument('--interest', required=True, type=float, help='interest rate for loan')
+parser.add_argument('--interest', required=False, type=float, help='interest rate for loan')
 
 values = parser.parse_args()
 
@@ -104,6 +104,7 @@ def annuity_payment(credit, interest, periods):
 
 #  function calculating the period needed to repay the loan
 
+
 def number_of_monthly_payments(credit, payment, interest):
     i = interest / (12 * 100)
     return ceil(log((payment / (payment - i * credit)), 1 + i))
@@ -134,51 +135,62 @@ def number_monthly_with_overpay(credit, payment, interest):
 
 #  flow control
 
-if _type not in ('diff', 'annuity'):
-    print('Incorrect parameters')
+while True:
 
-if _type == 'diff' and payment is not None:
-    print('Incorrect parameters')
+    if _type not in ('diff', 'annuity'):
+        print('Incorrect parameters')
+        break
 
-if interest == None:
-    print('Incorrect parameters')
+    if _type == 'diff' and payment is not None:
+        print('Incorrect parameters')
+        break
 
-if len(list_of_values) < 4:
-    print("Incorrect parameters")
+    if interest is None:
+        print('Incorrect parameters')
+        break
 
-if interest is not None:
-    if interest < 0:
-        print("Incorrect Parameters")
+    if len(list_of_values) < 4:
+        print("Incorrect parameters")
+        break
 
-if principal is not None:
-    if principal < 0:
-        print("Incorrect Parameters")
+    if interest is not None:
+        if interest < 0:
+            print("Incorrect Parameters")
+            break
 
-if periods is not None:
-    if periods < 0:
-        print("Incorrect Parameters")
+    if principal is not None:
+        if principal < 0:
+            print("Incorrect Parameters")
+            break
 
-if payment is not None:
-    if payment < 0:
-        print("Incorrect Parameters")
+    if periods is not None:
+        if periods < 0:
+            print("Incorrect Parameters")
+            break
 
-if _type == 'diff':
+    if payment is not None:
+        if payment < 0:
+            print("Incorrect Parameters")
+            break
 
-    differentiated_payments(principal, periods, interest)
+    if _type == 'diff':
 
-elif _type == 'annuity':
+        differentiated_payments(principal, periods, interest)
+        break
 
-    if principal and periods and interest and payment is not True:
+    elif _type == 'annuity':
 
-        annuity_payment(principal, interest, periods)
+        if principal and periods and interest and payment is not True:
 
-    if payment and periods and interest and principal is not True:
+            annuity_payment(principal, interest, periods)
+            break
 
-       calculate_principal_with_overpayment(payment, interest, periods)
+        if payment and periods and interest and principal is not True:
 
-    if principal and payment and interest and periods is not True:
+            calculate_principal_with_overpayment(payment, interest, periods)
+            break
 
-        number_monthly_with_overpay(principal, payment, interest)
+        if principal and payment and interest and periods is not True:
 
-
-
+            number_monthly_with_overpay(principal, payment, interest)
+            break
