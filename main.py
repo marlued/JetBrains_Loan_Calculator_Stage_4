@@ -19,6 +19,8 @@ principal = values.principal
 periods = values.periods
 interest = values.interest
 
+list_of_values = [values.type, values.payment, values.principal, values.periods, values.interest]
+
 # definition of functions
 
 # functions for differentiated payments:
@@ -130,23 +132,51 @@ def number_monthly_with_overpay(credit, payment, interest):
         print(f'Overpayment = {loan - credit}')
 
 
-# flow control
+#  flow control
+
+if _type not in ('diff', 'annuity'):
+    print('Incorrect parameters')
+
+if _type == 'diff' and payment is not None:
+    print('Incorrect parameters')
+
+if interest == None:
+    print('Incorrect parameters')
+
+if len(list_of_values) < 4:
+    print("Incorrect parameters")
+
+if interest is not None:
+    if interest < 0:
+        print("Incorrect Parameters")
+
+if principal is not None:
+    if principal < 0:
+        print("Incorrect Parameters")
+
+if periods is not None:
+    if periods < 0:
+        print("Incorrect Parameters")
+
+if payment is not None:
+    if payment < 0:
+        print("Incorrect Parameters")
 
 if _type == 'diff':
 
     differentiated_payments(principal, periods, interest)
 
-if _type == 'annuity':
+elif _type == 'annuity':
 
     if principal and periods and interest and payment is not True:
 
         annuity_payment(principal, interest, periods)
 
-    elif payment and periods and interest and principal is not True:
+    if payment and periods and interest and principal is not True:
 
        calculate_principal_with_overpayment(payment, interest, periods)
 
-    elif principal and payment and interest and periods is not True:
+    if principal and payment and interest and periods is not True:
 
         number_monthly_with_overpay(principal, payment, interest)
 
