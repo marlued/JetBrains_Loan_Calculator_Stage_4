@@ -45,13 +45,18 @@ def differentiated_payments(principal, periods, interest):
 
     number_of_monthly_payments = 1
     payments_done = []
+    number_of_months = []
 
     while number_of_monthly_payments <= periods:
-        print(diff_payments(principal, interest, periods, number_of_monthly_payments))
         payments_done.append(diff_payments(principal, interest, periods, number_of_monthly_payments))
+        number_of_months.append(number_of_monthly_payments)
         number_of_monthly_payments += 1
 
     sum_of_payments = sum(payments_done)
+
+    for number in number_of_months:
+        print(f'Month {number}: {payments_done[number - 1]}')
+
 
     if check_for_overpayment(principal, sum_of_payments) is not False:
         print(f'Overpayment = {check_for_overpayment(principal, sum_of_payments)}')
